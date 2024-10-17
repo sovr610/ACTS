@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "yR9KdFq1SWE7MAkpb2BPrNH63O1zV/En0e8B3OpcIsg=",
+  "Source": "StargateAPI",
+  "BasePath": "_content/StargateAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\Sovr6\\OneDrive\\Desktop\\interview-bam\\tech_review\\tech_exercise_v.0.0.3\\tech_exercise_v.0.0.3\\tech_exercise\\package\\exercise1\\ACTS\\ACTS.esproj",
+      "Version": 2,
+      "Source": "ACTS",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

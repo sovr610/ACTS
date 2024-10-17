@@ -1,0 +1,82 @@
+<div class="space-background">
+  <div class="container">
+    <header class="text-center my-5">
+      <h1 class="space-title">Astronaut Career Tracking System</h1>
+    </header>
+
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <div class="mb-4">
+      <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input type="text" class="form-control" placeholder="Search astronauts..."
+               [(ngModel)]="searchTerm" (ngModelChange)="searchPeople()">
+      </div>
+    </div>
+
+    <div *ngIf="isSearching && filteredPeople.length === 0" class="alert alert-info" role="alert">
+      No astronauts found matching your search.
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      <div class="col" *ngFor="let person of filteredPeople">
+        <div class="card h-100" (click)="selectPerson(person)" [class.active]="person === selectedPerson">
+          <div class="card-header">
+            <div class="d-flex align-items-center">
+              <div class="icon-wrapper me-3">
+                <i class="fas" [ngClass]="{'fa-user-astronaut': isAstronaut(person), 'fa-user': !isAstronaut(person)}"></i>
+              </div>
+              <h2 class="h5 mb-0">{{ person.name }}</h2>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><strong>Current Rank:</strong> {{ person.currentRank || 'N/A' }}</p>
+            <p class="card-text"><strong>Current Duty:</strong> {{ person.currentDutyTitle || 'N/A' }}</p>
+            <p class="card-text"><strong>Career Start:</strong> {{ formatDateTime(person.careerStartDate) }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">Last updated: {{ formatDateTime(person.careerEndDate) || 'Ongoing' }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #personDetailsModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ selectedPerson?.name }}'s Details</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" *ngIf="selectedPerson">
+    <p><strong>Current Rank:</strong> {{ selectedPerson.currentRank || 'N/A' }}</p>
+    <p><strong>Current Duty:</strong> {{ selectedPerson.currentDutyTitle || 'N/A' }}</p>
+    <p><strong>Career Start:</strong> {{ formatDateTime(selectedPerson.careerStartDate) }}</p>
+    <p><strong>Career End:</strong> {{ getCareerEndDate(selectedPerson) }}</p>
+
+    <h5>Astronaut Duties</h5>
+    <div *ngIf="selectedPersonDuties.length; else noDuties">
+      <div *ngFor="let duty of selectedPersonDuties">
+        <h6>{{ duty.dutyTitle }}</h6>
+        <p><strong>Rank:</strong> {{ duty.rank }}</p>
+        <p><strong>Start Date:</strong> {{ formatDateTime(duty.dutyStartDate) }}</p>
+        <p><strong>End Date:</strong> {{ duty.dutyEndDate ? formatDateTime(duty.dutyEndDate) : 'Ongoing' }}</p>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar"
+               [style.width.%]="calculateProgress(duty)"
+               [style.backgroundColor]="getProgressBarColor(calculateProgress(duty))"
+               [attr.aria-valuenow]="calculateProgress(duty)"
+               aria-valuemin="0"
+               aria-valuemax="100">
+            {{ calculateProgress(duty) | number:'1.0-0' }}%
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #noDuties>
+      <p>No duties recorded for this astronaut.</p>
+    </ng-template>
+  </div>
+</ng-template>
